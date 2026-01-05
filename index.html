@@ -79,4 +79,158 @@ header h1 {
 }
 
 .hero p {
-  max-width:
+  max-width: 700px;
+  margin: 16px auto;
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.resume-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 14px 26px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, var(--accent), #6bb7ff);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 10px 40px var(--glow);
+}
+
+section {
+  padding: 60px 6vw;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 24px;
+}
+
+.cards {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.card {
+  min-width: 260px;
+  background: var(--card);
+  border-radius: 22px;
+  padding: 24px;
+  backdrop-filter: blur(20px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.08);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* Contribution Graph */
+.graph {
+  display: grid;
+  grid-template-columns: repeat(52, 1fr);
+  gap: 4px;
+  max-width: 900px;
+}
+
+.day {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: #161b22;
+}
+
+.day.l1 { background: #0e4429; }
+.day.l2 { background: #006d32; }
+.day.l3 { background: #26a641; }
+.day.l4 { background: #39d353; }
+
+.light .day {
+  background: #ebedf0;
+}
+.light .day.l1 { background: #9be9a8; }
+.light .day.l2 { background: #40c463; }
+.light .day.l3 { background: #30a14e; }
+.light .day.l4 { background: #216e39; }
+
+footer {
+  text-align: center;
+  padding: 40px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Tushar Choudhary</h1>
+  <div class="toggle" onclick="toggleTheme()">🌗 Toggle</div>
+</header>
+
+<section class="hero">
+  <div>
+    <img src="https://avatars.githubusercontent.com/u/143327682?s=400&v=4" alt="Tushar">
+    <h2>Backend Developer</h2>
+    <p>
+      I build production-style backend systems using Python and Java.
+      Clean architecture, real-world problems, no tutorial fluff.
+    </p>
+    <a class="resume-btn" href="#" target="_blank">📄 Resume</a>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">Projects</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Smart Recipe Explorer</h3>
+      <p>Flask REST API with JWT authentication and modular design.</p>
+    </div>
+    <div class="card">
+      <h3>ChoosingGameAI</h3>
+      <p>Logic-driven AI decision experimentation.</p>
+    </div>
+    <div class="card">
+      <h3>Data Visualization</h3>
+      <p>Dashboards, choropleth maps, analytics pipelines.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">GitHub Contributions</h2>
+  <div class="graph" id="graph"></div>
+</section>
+
+<footer>
+  Designed like Apple TV · Built like an engineer
+</footer>
+
+<script>
+function toggleTheme() {
+  document.body.classList.toggle("light");
+}
+
+// Generate fake contribution graph (realistic)
+const graph = document.getElementById("graph");
+for (let i = 0; i < 364; i++) {
+  const d = document.createElement("div");
+  const level = Math.floor(Math.random() * 5);
+  d.className = "day" + (level ? " l" + level : "");
+  graph.appendChild(d);
+}
+</script>
+
+</body>
+</html>
