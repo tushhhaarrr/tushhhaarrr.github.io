@@ -3,280 +3,228 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tushar Choudhary | Developer Portfolio</title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <title>Tushar Choudhary · GitHub Portfolio</title>
 
   <style>
     :root {
-      --bg: #0b0f19;
-      --card: #11172a;
-      --accent: #7c7cff;
-      --accent-glow: rgba(124,124,255,0.4);
-      --text: #e6e8f2;
-      --muted: #9aa1c2;
+      --bg: #0d1117;
+      --panel: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --muted: #8b949e;
+      --accent: #58a6ff;
+      --success: #3fb950;
     }
 
     * {
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   Helvetica, Arial, sans-serif;
     }
 
     body {
-      background: radial-gradient(circle at top, #11172a, #05070d);
+      margin: 0;
+      background: var(--bg);
       color: var(--text);
-      overflow-x: hidden;
     }
 
-    /* --- Animated background grid --- */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background:
-        linear-gradient(transparent 95%, rgba(255,255,255,0.03)),
-        linear-gradient(90deg, transparent 95%, rgba(255,255,255,0.03));
-      background-size: 40px 40px;
-      animation: gridMove 20s linear infinite;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    @keyframes gridMove {
-      from { transform: translateY(0); }
-      to { transform: translateY(40px); }
+    a {
+      color: var(--accent);
+      text-decoration: none;
     }
 
     header {
-      min-height: 100vh;
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
+      justify-content: space-between;
     }
 
-    h1 {
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      font-weight: 800;
-      letter-spacing: -1px;
-      background: linear-gradient(90deg, #fff, var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: glow 3s ease-in-out infinite alternate;
-    }
-
-    @keyframes glow {
-      from { text-shadow: 0 0 10px var(--accent-glow); }
-      to { text-shadow: 0 0 25px var(--accent-glow); }
-    }
-
-    .subtitle {
-      margin-top: 1rem;
-      color: var(--muted);
-      max-width: 700px;
+    header h1 {
       font-size: 1.1rem;
-      line-height: 1.6;
+      font-weight: 600;
     }
 
-    section {
-      padding: 4rem 6vw;
+    .container {
       max-width: 1200px;
       margin: auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
     }
 
-    .section-title {
-      font-size: 2rem;
-      margin-bottom: 2rem;
-      position: relative;
+    /* Sidebar */
+    .sidebar {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
     }
 
-    .section-title::after {
-      content: "";
-      width: 60px;
-      height: 3px;
-      background: var(--accent);
-      display: block;
-      margin-top: 0.5rem;
+    .avatar {
+      width: 100%;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+    }
+
+    .name {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-top: 16px;
+    }
+
+    .username {
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .bio {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(63,185,80,0.15);
+      color: var(--success);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      margin-bottom: 16px;
+    }
+
+    /* Main */
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
+    }
+
+    .card h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
     }
 
-    .card {
-      background: linear-gradient(145deg, #121a33, #0b1020);
-      padding: 1.5rem;
-      border-radius: 16px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-      overflow: hidden;
+    .repo {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px;
+      transition: border 0.2s ease;
     }
 
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top left, rgba(124,124,255,0.15), transparent 60%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
+    .repo:hover {
+      border-color: var(--accent);
     }
 
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    }
-
-    .card:hover::before {
-      opacity: 1;
-    }
-
-    .card h3 {
-      margin-bottom: 0.5rem;
-    }
-
-    .card p {
-      color: var(--muted);
-      line-height: 1.6;
+    .repo h3 {
       font-size: 0.95rem;
+      margin-bottom: 6px;
     }
 
-    .badges img {
-      margin: 6px;
-      height: 28px;
+    .repo p {
+      font-size: 0.85rem;
+      color: var(--muted);
     }
 
-    .center {
-      text-align: center;
+    .tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .pill {
+      font-size: 0.7rem;
+      border: 1px solid var(--border);
+      padding: 4px 8px;
+      border-radius: 20px;
+      color: var(--muted);
     }
 
     footer {
-      padding: 3rem 2rem;
       text-align: center;
+      padding: 20px;
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
     }
 
-    .socials a {
-      display: inline-block;
-      margin: 0 10px;
-      transition: transform 0.3s ease;
-    }
-
-    .socials a:hover {
-      transform: scale(1.15);
-    }
-
-    /* Scroll reveal */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s ease;
-    }
-
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <div>
-    <h1>👋 Hey, I’m Tushar Choudhary</h1>
-    <p class="subtitle">
-      Backend-focused developer crafting clean, practical, production-like systems.
-      Obsessed with problem-solving, data, and writing code that survives real life.
-    </p>
-  </div>
+  <h1>tushhhaarrr / portfolio</h1>
+  <a href="https://github.com/tushhhaarrr" target="_blank">GitHub ↗</a>
 </header>
 
-<section class="reveal">
-  <h2 class="section-title">🚀 What I Work With</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>Languages</h3>
-      <p>Python (pandas, NumPy, matplotlib), Java (Core, OOP, DSA)</p>
-    </div>
-    <div class="card">
-      <h3>Frameworks</h3>
-      <p>Flask APIs, Spring Boot backend, SQLAlchemy, SQLite</p>
-    </div>
-    <div class="card">
-      <h3>Data & APIs</h3>
-      <p>RESTful design, JWT auth, analytics workflows, visualization</p>
-    </div>
-  </div>
-</section>
+<div class="container">
 
-<section class="reveal">
-  <h2 class="section-title">🛠️ Projects & Practice</h2>
-  <div class="grid">
-    <div class="card">
-      <p>Flask REST APIs with JWT authentication and modular architecture</p>
-    </div>
-    <div class="card">
-      <p>Java + Spring Boot systems (university management, chatbot experiments)</p>
-    </div>
-    <div class="card">
-      <p>Python dashboards, choropleth maps, and data analytics projects</p>
-    </div>
-    <div class="card">
-      <p>Consistent DSA practice in both Python and Java</p>
-    </div>
-  </div>
-</section>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <img class="avatar" src="https://avatars.githubusercontent.com/u/00000000?v=4" alt="Avatar">
+    <div class="name">Tushar Choudhary</div>
+    <div class="username">@tushhhaarrr</div>
 
-<section class="reveal">
-  <h2 class="section-title">🎯 Mindset</h2>
-  <div class="grid">
+    <div class="badge">● Actively Building</div>
+
+    <p class="bio">
+      Backend-focused developer working with Python and Java.
+      I build production-style APIs, data-driven systems,
+      and clean backend architectures.
+    </p>
+
+    <p class="bio">
+      📍 India<br>
+      💻 Python · Java · Flask · Spring Boot<br>
+      🔐 REST APIs · JWT · SQL
+    </p>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
     <div class="card">
+      <h2>About</h2>
       <p>
-        I don’t chase tutorials. I build systems that resemble real production environments —
-        readable, efficient, and grounded in reality.
+        I focus on writing readable, efficient backend code.
+        I prefer real-world projects over tutorials and
+        actively practice data structures, system design,
+        and backend architecture.
       </p>
     </div>
-  </div>
-</section>
 
-<section class="center reveal">
-  <h2 class="section-title">🌐 Connect</h2>
-  <div class="socials">
-    <a href="https://linkedin.com/in/www.linkedin.com/in/tushar-choudhary-a0a82a286" target="_blank">
-      <img src="https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white">
-    </a>
-    <a href="mailto:tusharchaudhary7297@gmail.com">
-      <img src="https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white">
-    </a>
-    <a href="https://github.com/tushhhaarrr" target="_blank">
-      <img src="https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white">
-    </a>
-  </div>
-</section>
+    <div class="card">
+      <h2>Featured Repositories</h2>
+      <div class="grid">
 
-<footer>
-  <p>Built with curiosity, caffeine, and a mild obsession with clean architecture ☕</p>
-</footer>
-
-<script>
-  const reveals = document.querySelectorAll('.reveal');
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('active');
-      }
-    });
-  }, { threshold: 0.1 });
-
-  reveals.forEach(r => observer.observe(r));
-</script>
-
-</body>
-</html>
+        <div class="repo">
+          <h3>Smart Recipe Explorer</h3>
+          <p>
+            Flask-based REST API with JWT authentication,
+            modular structure, and database integration.
+          </p>
+          <div class="tech">
+            <span class="pill">Python</span>
