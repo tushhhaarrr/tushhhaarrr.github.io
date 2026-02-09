@@ -1,0 +1,82 @@
+The Problem
+You're doing full collection scans for single-item operations. Instead of reading 1 document, you're reading all 225k documents every time. This means:
+Pricing Impact:
+
+Firebase charges per document read
+You should be doing ~227k operations total (225k reads + 2.2k writes)
+You're actually doing: 225k documents × every single query/update
+If you're doing even 100 operations/day, that's 22.5 million reads instead of 225k
+Cost estimate: At $0.06 per 100k reads, you could be paying $13.50/day ($405/month) instead of ~$0.14/day ($4/month)
+
+Performance Impact:
+
+Queries take forever (scanning 225k items)
+Massive bandwidth usage
+App feels sluggish
+Firestore has to transfer all that data
+
+Why This Happens
+You're probably doing something like:
+
+javascript// BAD - Full scan
+const snapshot = await db.collection('items').get();
+const item = snapshot.docs.find(doc => doc.id === itemId);
+
+// Or in realtime database
+
+ref.on('value', snapshot => {
+  const allData = snapshot.val();
+  const item = allData[itemId];
+});
+
+
+
+The Fix
+
+For Firestore:
+
+javascript// GOOD - Direct document access (1 read)
+const docRef = db.collection('items').doc(itemId);
+const doc = await docRef.get();
+
+// Update single item (1 write)
+await docRef.update({ field: value });
+For Realtime Database:
+javascript// GOOD - Direct path access
+const itemRef = ref.child(`items/${itemId}`);
+itemRef.once('value', snapshot => {
+  const item = snapshot.val();
+});
+
+// Update single item
+itemRef.update({ field: value });
+Database Load
+Current situation:
+
+Database is under massive unnecessary load
+You're hitting rate limits or getting close
+Indexes aren't being utilized
+Every operation locks/reads the entire collection
+
+After fix:
+
+99.9% reduction in read operations
+Instant queries (milliseconds vs seconds)
+Proper index usage
+Scalable architecture
+
+Action Items
+
+Audit your code immediately - Find all .get() or .on('value') calls on entire collections
+Use direct document references - Access items by ID directly
+Add indexes - For queries that need to filter (not by ID)
+Monitor usage - Check Firebase console for read/write metrics
+Consider pagination - If you actually need to list items, use limit() and cursors
+
+When Full Scans Are Okay
+Only when you genuinely need all documents:
+
+Generating reports on entire dataset
+Bulk migrations
+Analytics operations
+Use .limit() even then if possible
